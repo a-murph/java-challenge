@@ -13,42 +13,42 @@ import org.springframework.stereotype.Service;
 @Service
 public class CompensationServiceImpl implements CompensationService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(CompensationServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CompensationServiceImpl.class);
 
-  @Autowired
-  private CompensationRepository compensationRepository;
-  @Autowired
-  private EmployeeRepository employeeRepository;
+    @Autowired
+    private CompensationRepository compensationRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
-  @Override
-  public Compensation create(Compensation compensation) {
-    LOG.debug("Creating compensation for employee [{}]", compensation.getEmployeeId());
+    @Override
+    public Compensation create(Compensation compensation) {
+        LOG.debug("Creating compensation for employee [{}]", compensation.getEmployeeId());
 
-    Compensation existingComp = compensationRepository.findByEmployeeId(compensation.getEmployeeId());
-    if (existingComp != null) {
-      throw new RuntimeException("Compensation already exists");
+        Compensation existingComp = compensationRepository.findByEmployeeId(compensation.getEmployeeId());
+        if (existingComp != null) {
+            throw new RuntimeException("Compensation already exists");
+        }
+
+        Employee employee = employeeRepository.findByEmployeeId(compensation.getEmployeeId());
+        if (employee == null) {
+            throw new RuntimeException("Invalid employeeId: " + compensation.getEmployeeId());
+        }
+
+        compensationRepository.insert(compensation);
+
+        return compensation;
     }
 
-    Employee employee = employeeRepository.findByEmployeeId(compensation.getEmployeeId());
-    if (employee == null) {
-      throw new RuntimeException("Invalid employeeId: " + compensation.getEmployeeId());
+    @Override
+    public Compensation read(String id) {
+        LOG.debug("Finding compensation with id [{}]", id);
+
+        Compensation compensation = compensationRepository.findByEmployeeId(id);
+
+        if (compensation == null) {
+            throw new RuntimeException("Invalid employeeId: " + id);
+        }
+
+        return compensation;
     }
-
-    compensationRepository.insert(compensation);
-
-    return compensation;
-  }
-
-  @Override
-  public Compensation read(String id) {
-    LOG.debug("Finding compensation with id [{}]", id);
-
-    Compensation compensation = compensationRepository.findByEmployeeId(id);
-
-    if (compensation == null) {
-      throw new RuntimeException("Invalid employeeId: " + id);
-    }
-
-    return compensation;
-  }
 }

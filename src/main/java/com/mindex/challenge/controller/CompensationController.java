@@ -9,22 +9,22 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CompensationController {
-  private static final Logger LOG = LoggerFactory.getLogger(CompensationController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CompensationController.class);
 
-  @Autowired
-  private CompensationService compensationService;
+    @Autowired
+    private CompensationService compensationService;
 
-  @PostMapping("/compensation")
-  public Compensation create(@RequestBody Compensation compensation) {
-    LOG.debug("Received compensation create request for [{}]", compensation);
+    @PostMapping("/compensation")
+    public Compensation create(@RequestBody Compensation compensation) {
+        LOG.debug("Received compensation create request for [{}]", compensation);
 
-    return compensationService.create(compensation);
-  }
+        return compensationService.create(compensation);
+    }
 
-  @GetMapping("/compensation/{id}")
-  public Compensation read(@PathVariable String id) {
-    LOG.debug("Received compensation read request for employee id [{}]", id);
+    @GetMapping("/compensation/{id}")
+    public Compensation read(@PathVariable String id) {
+        LOG.debug("Received compensation read request for employee id [{}]", id);
 
-    return compensationService.read(id);
-  }
+        return compensationService.read(id);
+    }
 }
