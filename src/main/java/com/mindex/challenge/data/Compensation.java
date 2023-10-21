@@ -6,7 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class Compensation {
     private String employeeId;
-    private float salary;
+    private double salary;
     private @DateTimeFormat(pattern = "yyyy-MM-dd") Date effectiveDate;
 
     public Compensation() {
@@ -20,11 +20,11 @@ public class Compensation {
         this.employeeId = employeeId;
     }
 
-    public float getSalary() {
+    public double getSalary() {
         return salary;
     }
 
-    public void setSalary(float salary) {
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 
